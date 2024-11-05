@@ -1,0 +1,27 @@
+@using Portfolio.Models
+<p>
+    I made this portfolio website to learn the basics of fullstack .NET development.
+</p>
+<h3>The Vision</h3>
+<h3>The Execution</h3>
+<h3>The Results</h3>
+<h3>The Team</h3>
+
+@code {
+    public static ProjectInfo ProjectInfo = new() {
+        ModalView = @<PortfolioSite/>,
+        Title = "This Portfolio",
+        Id = "PortfolioSite",
+        ShortDescription = "Website made with the .NET stack.",
+        ImageSource = "/images/Blazor.png",
+        TeamSize = "Solo",
+        TechnologiesDescription = "C#, ASP.NET, Azure, Blazor, HTML, CSS, Bootstrap",
+        Role = "Programming, design",
+        Duration = "October 2024",
+        Buttons = [
+            
+        ],
+        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Cs, ProjectInfo.Technology.NET, ProjectInfo.Technology.CICD })
+    };
+
+}

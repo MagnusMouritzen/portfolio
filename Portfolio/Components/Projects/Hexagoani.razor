@@ -1,0 +1,67 @@
+@using Portfolio.Models
+<p>
+    This small project is a hexagonal version of the mobile game 2048. 
+    Instead of four directions of movement, there are six, and instead of working on powers of two, it works on powers of three.
+</p>
+<h3>The Hexagon</h3>
+<p>
+    The project was spawned from a desire to create a hexagonal data structure that would be easy to operate. 
+    I worked out the mathematics of hexagons and came up with a coordinate system with the axis H, I, and J. 
+    Each of them represents an axis of possible movement through the hexagon, and only two of them are needed to get a position.
+</p>
+<p>
+    However, having the choice of all three makes it easy to iterate through the hexagon in any direction I want. 
+    When a movement command is given in the game, each piece simply needs to move as far as it can along the appropriate axis.
+</p>
+<ContentImage Src="hexagoani/HexagonIteration.png" Description="Given a rowAxis and columnAxis (each H, I, or J), as well as a direction, the hexagon can easily be iterated through in a desires order. Start and end must be calculated throughout the loop, as different rows have different lengths."/>
+<p>
+    The three axis also gives rise to an idea of a three-dimensional colour gradient mapped onto the two-dimensional hexagon. 
+    This gives the compelling colour scheme of the hexagon in the game, because it so nicely aligns with the three primary colours.
+</p>
+<ContentImage Src="hexagoani/ColourGradient.png" Description="The red, green, and blue colour channels are given by the relative position in the hexagon according to each of the three axis."/>
+<h3>Polish</h3>
+<p>
+    Given the size of the game, it was a feasible task to add enough polish to give it a nice finish. 
+    This involves juicing the game with some sound effects, movement animations, and particle effects.
+</p>
+<p>
+    The sounds were recorded using Reaper, and each has three variations to avoid them being monotone.
+    They are separated such that the ones for movement to the left have a different "feel" to those that indicate movement to the right. 
+    Had there been an undo operation, it would have been great to play the sounds backward. 
+    The sounds are in general a bit silly, meant to compliment the colourful nature of the game.
+</p>
+<p>
+    The movement animations consist of the squeezing and stretching of tokens, as they move. 
+    The faster the movement, the bigger the effect. 
+    The effect is done with a gradient to have a smooth transition.
+</p>
+<p>
+    The squeeze/stretch effect is achieved with the Squeezer component. 
+    To avoid complicated animations or mesh manipulation, it is simply done with two levels of transforms that are rotated and scaled.
+    This allows the effect to be done in any direction, not just x/y.
+</p>
+<ContentImage Src="hexagoani/Squeezer.png" Description="To squeeze a GameObject, the direction must first be set, in which it rotates the two transforms appropriately. Then it is a simple matter of scaling."/>
+
+@code {
+    public static ProjectInfo ProjectInfo = new() {
+        ModalView = @<Hexagoani/>,
+        Title = "Hexagoani",
+        Id = "Hexagoani",
+        ShortDescription = "Unity game inspired by 2048.",
+        ImageSource = "/images/Hexagoani.png",
+        TeamSize = "Solo",
+        TechnologiesDescription = "Unity, C#, Reaper",
+        Role = "Programming, design, audio",
+        Duration = "July 2024 - August 2024",
+        Buttons = [
+            new ActionButton.ButtonLink(){
+                Destination = ActionButton.Destination.GitHub, 
+                Url = "https://github.com/MagnusMouritzen/hexagoani"},
+            new ActionButton.ButtonLink(){
+                Destination = ActionButton.Destination.Play, 
+                Url = "https://otter-knight-studio.itch.io/hexagoani"}
+        ],
+        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Cs, ProjectInfo.Technology.Unity})
+    };
+
+}

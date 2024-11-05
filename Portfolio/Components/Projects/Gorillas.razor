@@ -1,0 +1,130 @@
+@using Portfolio.Models
+<p>
+    A simple game engine inspired by Unity was developed in Java. 
+    It features common game design patterns such as an Update loop, a Component system, a very simple collision system, and a "rendering" system. 
+    The engine was then used with JavaFX to create a game inspired by the classic Gorillas.
+</p>
+<h3>The Engine</h3>
+<p>
+    At the heart of the game lies the engine, which I had the primary responsibility for. 
+    It was built with the intention of making it easy to create simple games in Java, no matter the UI framework. 
+    A major reason for the Engine's simplicity is that it is made to work on a pixel-level. 
+    This gives great control, but at a great performance cost.
+</p>
+<Accordion>
+    <AccordionItem Title="GameObject and Component">
+        <Content>
+            <p>
+                Everything in the game is a GameObject, which has a world position.
+                Each GameObject then has a number of Components attached to it, which gives it behaviour.
+                This is a well-known game-programming pattern that decouples behaviour and simplifies the responsibility of each class.
+            </p>
+            <p>
+                GameObjects are meant to be registered in the Engine.
+                When a GameObject is given control to perform some activity, it can pass on that control to each of its Components in turn.
+            </p>
+            <ContentImage Src="gorillas/Update.png" Description="The Update implementation on GameObject."/>
+            <p>
+                From the usage of Unity, I knew that it was practical to be able to get a Component of a particular type from a GameObject.
+                To do this, we would of course use a generic method.
+                We in particular wanted to allow asking for a particular class, and then get a subclass of that.
+                However, generics do not work the same in C# and Java.
+                So to solve this issue, we needed to manually walk through the inheritance hierarchy of each Component.
+            </p>
+            <ContentImage Src="gorillas/GetComponent.png" Description="Method on GameObject to fetch attached Component of particular type."/>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="GameLoop and Update">
+        <Content>
+            <p>
+                Like Component, GameLoop is a well-known game pattern, which dynamically passes control between each object in the game.
+                Each object has an Update method that the GameLoop can call.
+                The parameter deltaTime tells the object how much time has passed since it was last called, thus achieving smooth behaviour independently of framerate.
+            </p>
+            <p>
+                The GameLoop is simply an interface, an implementation of which the Engine is given to run.
+                Our game uses JavaFX, and thus we needed an implementation of GameLoop that would work with that.
+                This was done with an AnimationTimer object.
+            </p>
+            <ContentImage Src="gorillas/AnimationTimer.png" Description="JavaFX implementation of asynchronous GameLoop."/>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Physics and Collidable">
+        <Content>
+            <p>
+                The physics system has a centralised Physics class, which maintains a list of all Collidables in the game.
+                A Collidable is a Component that is used to represent the shape of a GameObject.
+                The basic idea is that a Collidable always can ask the Physics system if it is intersecting with any other Collidable.
+                Thus, if a GameObject has any movement, you would generally end the movement by checking if any collisions are happening, moving backwards again as necessary.
+            </p>
+            <p>
+                A Collidable is represented by a 2D array of integers.
+                Every integer represents the layer of each "pixel" of the Collidable.
+                The layer system works such that each Collidable has a bitmask that tells which layers this Collidable can collide with.
+                So if it overlaps with another Collidable, it will only be considered a collision, if that pixel of the other Collidable is in the bitmask.
+            </p>
+            <p>
+                In the actual implementation of the game, there is an enum to represent named layers.
+                0 is of course Nothing (ie. there is nothing in that pixel).
+                A layer enum can then be converted to appropriate integers for the physics system.
+            </p>
+            <ContentImage Src="gorillas/Layer.png" Description="Game-specific enum wrapper for the layer system."/>
+            <p>
+                For the sake of ease of creating game assets, we specified a .col file format. 
+                A .col file is just a textual representation of a Collidable that can be read to create an actual Collidable.
+            </p>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Visualiser, Drawing, and Display">
+        <Content>
+            <p>
+                At the end of the rendering system is the Display interface, which can be given a 2D array of colours to display. 
+                In the implementation of the game, this is implemented using a JavaFX canvas, where it is possible to draw pixel by pixel.
+            </p>
+            <p>
+                To populate the Display, there is a centralised Visualiser. 
+                Similar to the Physics system, the Visualiser maintains a list of Drawings in the game. 
+                A Drawing is a Component that represents visuals through a 2D array of colours.
+            </p>
+            <p>
+                Just like with Collidables, we created a .vis format to easily represent Drawings in textual format. 
+                It is therefore easy to use another program to draw an image, and then use a small script to translate its data into the .vis format.
+            </p>
+        </Content>
+    </AccordionItem>
+</Accordion>
+<h3>The Game</h3>
+<p>
+    After we had implemented the Engine, it was incredibly easy to create the game. 
+    This is how we were able to create a game with so many features in the span of only 3 weeks on our first semester of university.
+</p>
+<p>
+    Central to the game implementation are the classes GameMaster and GameMode. 
+    GameMaster essentially gathers all the elements of the game to work together. 
+    GameMode defines the rules of the game by creating GameObjects.
+</p>
+<p>
+    Besides those classes, we have a lot of small classes that define individual pieces of behaviour. 
+    They are all easily created and included because of all the work done by the Engine.
+</p>
+
+@code {
+    public static ProjectInfo ProjectInfo = new() {
+        ModalView = @<Gorillas/>,
+        Title = "Gorillas",
+        Id = "Gorillas",
+        ShortDescription = "Game and engine developed in JavaFX.",
+        ImageSource = "/images/Gorillas.png",
+        TeamSize = "3",
+        TechnologiesDescription = "Java, JavaFX",
+        Role = "Programming engine and gameplay",
+        Duration = "January 2022",
+        Buttons = [
+            new ActionButton.ButtonLink(){
+                Destination = ActionButton.Destination.GitHub, 
+                Url = "https://github.com/MagnusMouritzen/gorillas"}
+        ],
+        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Java})
+    };
+
+}

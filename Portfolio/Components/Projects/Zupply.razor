@@ -1,0 +1,43 @@
+@using Portfolio.Models
+<p>
+    Two REST-APIs with corresponding databases and a front-end were developed for the <a href="https://www.zupply.site/">Zupply</a> company. 
+    I do not have rights to show code or results. 
+    I worked on the backend of the project.
+</p>
+<h3>Development</h3>
+<p>
+    We followed the SCRUM method of development, which involved weekly sprints and standups with Zupply. 
+    At the standups we would discuss our progress, ask questions, and occasionally discuss design.
+</p>
+<p>
+    Our Github repository was set up with GitHub Actions to automatically deploy our work to Zupply's website. 
+    This of course made it easy to show off work at standups, but also to collaborate with each other, as one of us worked on a frontend that used the APIs. 
+    For testing, we made extensive use of Postman.
+</p>
+<p>
+    For the databases, after we had understood the problem, we designed a relational diagram. 
+    Once the diagram was accepted by Zupply, we could implement it in SQL in MariaDB, and then turn that into an SQLAlchemy representation.
+</p>
+<p>
+    The API itself was developed in Python using the Flask framework. 
+</p>
+<p>
+    The result of the project was a fully functional product that Zupply were very satisfied with.
+</p>
+
+@code {
+    public static ProjectInfo ProjectInfo = new() {
+        ModalView = @<Zupply/>,
+        Title = "RESTful API",
+        Id = "Zupply",
+        ShortDescription = "Python REST-API for the Zupply company.",
+        ImageSource = "/images/Zupply.png",
+        TeamSize = "3",
+        TechnologiesDescription = "Python, Flask, SQLAlchemy, MariaDB",
+        Role = "Programming backend and database",
+        Duration = "February 2023 - May 2023",
+        Buttons = [],
+        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Python , ProjectInfo.Technology.Flask, ProjectInfo.Technology.SQL, ProjectInfo.Technology.CICD })
+    };
+
+}

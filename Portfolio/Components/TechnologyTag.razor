@@ -1,0 +1,10 @@
+@using Portfolio.Models
+
+
+<Badge Style="@StyleText" Class="me-1 p-2" IndicatorType="BadgeIndicatorType.RoundedPill">@TagInfo.Text</Badge>
+
+@code {
+    [Parameter] public ProjectInfo.TagInfo TagInfo { get; set; }
+    
+    private string StyleText => $"background-color: {TagInfo.Colour} !important";
+}

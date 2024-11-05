@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Blazor.Bootstrap" Version="3.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Components\Pages\Projects\Bachelor.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Projects\Gorillas.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Projects\Guildmaster.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Projects\Hexagoani.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Projects\PortfolioSite.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Projects\UnityPackage.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Projects\Youtube.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Projects\Zupply.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Components\Projects\Bachelor.razor" />
+      <AdditionalFiles Include="Components\Projects\Gorillas.razor" />
+      <AdditionalFiles Include="Components\Projects\Guildmaster.razor" />
+      <AdditionalFiles Include="Components\Projects\Hexagoani.razor" />
+      <AdditionalFiles Include="Components\Projects\PortfolioSite.razor" />
+      <AdditionalFiles Include="Components\Projects\UnityPackage.razor" />
+      <AdditionalFiles Include="Components\Projects\Youtube.razor" />
+      <AdditionalFiles Include="Components\Projects\Zupply.razor" />
+    </ItemGroup>
+
+</Project>

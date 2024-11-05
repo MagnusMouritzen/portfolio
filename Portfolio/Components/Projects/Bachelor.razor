@@ -1,0 +1,181 @@
+@using Portfolio.Models
+<p>
+    My bachelor project is a GPU implementation of a Particle in Cell simulation using Monte-Carlo Collisions. 
+    It is written in CUDA (C++) and is made to be run on the high-performance computers of Technical University of Denmark (DTU).
+</p>
+<p>
+    The project is an investigation of the performance differences of various scheduler paradigms given diverse, dynamic conditions. 
+    This is quantified with extensive benchmarks and NVIDIA Nsight, the results of which were rigorously analysed. 
+    The simulation features random collisions with varying frequencies, dynamic addition and subtraction of particles, as well as the implementation of a grid of cells to be used with a poisson solver.
+</p>
+<h3>The Problem</h3>
+<p>
+    CPUs are great at performing diverse, dynamic tasks.
+    But aside from pipelining and some minor parallelism, they must do one task at a time sequentially. 
+</p>
+<p>
+    GPUs excel at parallelism, and are capable of performing thousands of operations at the same time. 
+    The catch, however, is that only the same task can be done in parallel. 
+</p>
+<p>
+    This project takes the angle of a particle simulation that by nature requires branching and divergent behaviour; 
+    particles are added and removed randomly at runtime, they have different parameters, and their position and velocity influences their behaviour.
+    A research group at DTU is developing such a particle simulation, but they are doing so for CPU. 
+    Our project demonstrated how to translate it to GPU code that would be as efficient as possible in handling this dynamic problem.
+</p>
+<h3>The Process</h3>
+<p>
+    An iterative approach to the issue was taken, where the bigger problem was broken down into many sub-components, which could be tackled one at a time. 
+    For example, the first simulation was simply about moving particles around a confined box. 
+    Then came the addition of particles, then randomisation, then removal, etc.
+</p>
+<ContentImage Src="bachelor/Multiply.gif" Description="A gif of one of the first simulations with a limited amount of particles. It features the addition of particles at a predictable time as well as bouncing to provide conditional behaviour as well speeding up the particles over time."/>
+<p>
+    For each step, we would generate many different solutions, all verified by our automated tests for correct behaviour.
+    All solutions would be benchmarked on a wide set of parameters, such that we could analyse their behaviour under certain conditions. 
+    For example, we would test how they each behave with increased simulation time, increased particle count, increased collision chances, etc.
+</p>
+<p>
+    The benchmarks were run using job-scripts on high-performance computers where we reserved access to the GPU to ensure consistency. 
+    The data was logged to CSV files, which we could analyse with Python to generate tables and graphs.
+</p>
+<h3>The Ideas</h3>
+<p>
+    Along the process, we would research programming paradigms for GPU code, and invent our own ideas and solutions. 
+    The common theme among them is timing of synchronisation between CPU and GPU, and within the GPU at various levels. 
+    Besides that, they generally differ on how particles are assigned to threads. 
+</p>
+<p>
+    For the diagrams presented, yellow is CPU side, and white is GPU side.
+</p>
+<Accordion>
+    <AccordionItem Title="CPU Synchronisation">
+        <Content>
+            <p>
+                Some synchronisation between CPU and GPU will always be necessary, and is in general completely fine.
+                In particular, you will generally generate or load the start conditions on CPU, and transfer that data to the GPU.
+                Likewise, once the simulation has run its course, you will want to load the data back to the CPU for output.
+            </p>
+            <p>
+                However, as this simulation features a changing amount of particles, it can become difficult to handle this on GPU code.
+                Therefore, the "naive" approach to the problem is to synchronise back to the CPU to get an update on the number of particles.
+                So essentially the GPU will launch the kernel with one thread for each particle, and thus it will need to relaunch the kernel multiple times to take new particles into account.
+                This slows down the simulation significantly.
+            </p>
+            <p>
+                These are three schedulers that make use of CPU synchronization.
+                Whereas the two first only simulates each particle for one step at a time, the last one makes use of the fact that particles don't actually interact, and each particle can be simulated fully before synchronising back.
+            </p>
+            <ContentImage Src="bachelor/CPUSynchronisation.png" Description="Three schedulers that rely on CPU synchronisation."/>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Persistent Scheduling">
+        <Content>
+            <p>
+                Though natural to let each thread handle one particle, it is also possible to let each thread handle multiple particles.
+                This is the basis for the idea of persistent scheduling - a number of threads that matches the GPU architecture is launched.
+                Each thread then either has preassigned indices of particles to handle (static scheduling), or takes the next available particle (dynamic scheduling).
+            </p>
+            <p>
+                For these three schedulers, the two first can be thought of as extensions of previous CPU-based schedulers -
+                the first only simulates each particle one step at a time before synchronising back to the CPU, while the second makes sure to synchronise all GPU thread after each step.
+                Neither of these are practical, but are there to aid in understanding of GPU behaviour.
+                The third scheduler, however, works very well with both static and dynamic scheduling.
+            </p>
+            <ContentImage Src="bachelor/GPUSynchronisation.png" Description="Three schedulers that do not synchronise to the CPU during the simulation."/>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Synchronisation Levels">
+        <Content>
+            <p>
+                When it comes to dynamic scheduling, there are many ways to deal with acquiring new particles to handle.
+                This comes down to the GPU architecture, where threads are organised into groups of 32 called warps,
+                which are in groups called blocks, which again are in groups called Streaming Multiprocessors.
+            </p>
+            <ContentImage Src="bachelor/Architecture.png" Description="An overview of the architecture of the GPU used for the project."/>
+            <p>
+                The narrower the scope, the faster the communication between the threads.
+                So if all threads compete for particles on their own, you can imagine a hundred thousand atomic calls,
+                all trying to access the same global number representing the next available particle.
+            </p>
+            <p>
+                Instead it makes more sense to for example let a representative for each block compete for a range of particles to process,
+                and then assign those within the threads of the block according to index.
+                This of course requires block-level synchronisation, where some threads will need to wait for each other.
+            </p>
+            <p>
+                This concept can be extended to the warp level, where communication is incredibly fast. 
+                This concept holds additional importance, as the GPU executes the threads of a warp together. 
+                This means that all threads in the warp always should be executing the same operation, otherwise they must wait for each other.
+            </p>
+            <p>
+                Warp level synchronisation can thus also be used to ensure that threads wait for each other after a branch, which minimises the time that they are apart.
+            </p>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Buffers">
+        <Content>
+            <p>
+                When a thread has simulated a particle, or when it has created a new one, it needs to be written to global GPU memory. 
+                This is slow, and will of course force other threads to wait for the operation to be performed.
+            </p>
+            <p>
+                An additional problem is that if threads do not cooperate on uploading data, they will essentially be writing to random locations in the memory.
+                This means that even if two threads happened to perform a write simultaneously, they would most likely have to do so one at a time.
+            </p>
+            <p>
+                This sets the foundation for the idea of a buffer, which exists in block-level memory, which is much faster than global memory. 
+                Particles can be written to the block as the simulation goes along. 
+                When the buffer is full, all particles of the block (or thread) can cooperate to write copy the contents to global memory in a way that optimises parallelism.
+            </p>
+        </Content>
+    </AccordionItem>
+</Accordion>
+<h3>The Final Scheduler</h3>
+<p>
+    The tests, research, and ideas developed in the project led to a final variation on the dynamic scheduler, which turned out to outperform everything else. 
+    It is what the thesis recommended as the approach for future work on these particle simulations.
+</p>
+<ContentImage Src="bachelor/DynamicNew.png" Description="The first diagram is a detailed version of the normal dynamic scheduler. The second picture is the advanced version. Everything is GPU code."/>
+<p>
+    The main difference between these two approaches is to be found in the scope of the loops. 
+    The first version has a main loop, where each iteration represents the full simulation of one particle. 
+    It also has a nested loop, where each iteration represents the simulation of one particle for one time step.
+</p>
+<p>
+    This is a problem, because it means that threads will be split apart for long. 
+    If, for example, one thread only needs to update its particle for one step before it disappears, it might have to wait for another thread in the warp or block to perform thousands of timesteps.
+</p>
+<p>
+    The new version only has one loop, where each iteration represents one time step for one particle. 
+    Along the way, it frequently makes sure to synchronise at warp level to have threads cooperate on various tasks such as getting new particles, uploading results, etc.
+</p>
+<p>
+    This algorithm is <i>significantly</i> heavier and more complex, but the performance gain is also significant.
+</p>
+<h3>The Data and Results</h3>
+<p>
+    Check out the <a href="https://github.com/MagnusMouritzen/particle-simulation/blob/main/Report.pdf">report</a> for much more information, especially relating to the analysis of schedulers. 
+    Among other things, there is also an analysis on the usage of random numbers in GPU code.
+</p>
+
+@code {
+    public static ProjectInfo ProjectInfo = new() {
+        ModalView = @<Bachelor/>,
+        Title = "Dynamic Particle Simulation on GPU",
+        Id = "Bachelor",
+        ShortDescription = "Using CUDA to implement a PIC MCC simulation.",
+        ImageSource = "/images/CUDA.png",
+        TeamSize = "2",
+        TechnologiesDescription = "C++, CUDA, Python, HPC",
+        Role = "Programming engine and gameplay",
+        Duration = "February 2024 - June 2024",
+        Buttons = [
+            new ActionButton.ButtonLink(){
+                Destination = ActionButton.Destination.GitHub, 
+                Url = "https://otter-knight-studio.itch.io/guildmaster-demo"}
+        ],
+        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Cpp , ProjectInfo.Technology.CUDA, ProjectInfo.Technology.Python})
+    };
+
+}

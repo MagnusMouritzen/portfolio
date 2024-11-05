@@ -1,0 +1,20 @@
+@page "/software"
+@using Portfolio.Components.Projects
+@using Portfolio.Models
+@rendermode InteractiveServer
+
+<PageTitle>Software Portfolio</PageTitle>
+<ProjectView Title="Software Portfolio" Projects="@_projects"/>
+
+@code {
+    private readonly ProjectInfo[] _projects = [
+        Bachelor.ProjectInfo,
+        Zupply.ProjectInfo,
+        PortfolioSite.ProjectInfo,
+        Guildmaster.ProjectInfo,
+        Youtube.ProjectInfo,
+        Gorillas.ProjectInfo,
+        Hexagoani.ProjectInfo,
+        UnityPackage.ProjectInfo
+    ];
+}

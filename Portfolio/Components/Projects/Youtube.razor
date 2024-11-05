@@ -1,0 +1,124 @@
+@using Portfolio.Models
+<p>
+    These videos go deep on niche programming topics, teaching them in an approachable manner.
+    Most of them are about editor scripting in Unity, and one is about bit operations. 
+    They display my knowledge of the topics, my teaching skills, and my attention to detail when creating a product.
+</p>
+<h3>The Vision</h3>
+<p>
+    Youtube floods with beginner tutorials for Unity and C#, all meant to help you create your first hobby game. 
+    These videos have demolished the barrier to entry, allowing nearly everyone to get started with the engine.
+</p>
+<p>
+    Yet, as you move on to more advanced topics, the available videos seem much harder to follow and understand. 
+    We identified key aspects of popular beginner videos, which the advanced ones often lacked.
+    
+</p>
+<ul>
+    <li><b>Develop on-screen</b><br/>
+        Advanced videos often just explain the ideas, show off some code, and then show the result. 
+        Beginner videos actually show the writing of the code, explaining along the way.
+        They explain the thought process that lead to the code. 
+        They often even show mistakes and how to fix them, which further helps to understand <i>why</i> the code is as it is.</li>
+    <li><b>Show everything</b><br/>
+        Even if an advanced video shows the development, they often cut out "trivial" parts. 
+        It is incredibly frustrating to get stuck following a tutorial in a part that was cut out, trying to figure out what you are supposed to do or what it is supposed to look like.
+        Viewers have different setups and knowledge, so what is trivial to the creator is often not to the viewer.</li>
+    <li><b>Explain by analogy</b><br/>
+        The better you get at something - especially if you are theoretically inclined enough to want to teach it - the more you like to think in technical concepts. 
+        I believe most people learn best at the intersection of analogy, application, and technical theory. </li>
+    <li><b>Produce full example</b><br/>
+        Many advanced videos just show off the concepts on their own. 
+        Good beginner videos take you from a blank project to functional example of the concept. 
+        Even if the example isn't horribly useful, it still sparks the inspiration of the viewer.</li>
+    
+</ul>
+<p>
+    We additionally identified characteristics of tutorials that feel good to watch, keep your attention in a good way, and respect your time.
+</p>
+<ul>
+    <li><b>Animated explanations</b><br/>
+        Great tutorials know when to take you out of the code editor and use animations to visualise concepts.</li>
+    <li><b>High pace</b><br/>
+        Though pauses in speech are important to process new information, they become annoying if you already understand what was said. 
+        Very rarely is everything in a tutorial new to you, so you'll want to get quickly through the old stuff, and then you can pause yourself to think at the new stuff.</li>
+    <li><b>To the point</b><br/>
+        Introductions should actually introduce the video, not anything else. 
+        Likewise, the video should not be visually cluttered with irrelevant information. 
+        Typos and similar mistakes should also be removed.</li>
+    <li><b>Show result first</b><br/>
+        Open the video by showing what the tutorial will achieve. 
+        This sets a goal for the viewer, letting them understand what they are working towards. 
+        It also lets people get out quickly, if the tutorial isn't for them.</li>
+    <li><b>Synchronise visuals and audio</b><br/>
+        If a word is both typed and said, it should happen at the same time. 
+        Likewise, nearly everything that is typed should be said. 
+        This way, you don't need to try to read and listen to different things at the same time. 
+        Sometimes you won't even need to read, as you can just write what you hear.</li>
+</ul>
+<h3>The Execution</h3>
+<p>
+    To achieve our goals, we developed a workflow for the creation of each video.
+</p>
+<ol>
+    <li><b>Research and Plan</b><br/>
+        After choosing a topic, I learned as much as I could about it.
+        I read the sparse documentation, watched whatever videos I could find, read the Unity source code, and experimented a lot.
+        Along the way, I would build the example I wanted to teach in the video.</li>
+    <li><b>Audio Script</b><br/>
+        The full audio script was written, which also served as a guideline for the visuals of the video.</li>
+    <li><b>Record and Edit Audio</b><br/>
+        The script was read aloud by itself, and then it was edited to cut out all noise, have the best pronunciation, and remove excess time between words and sentences. 
+        For this, Reaper was used.</li>
+    <li><b>Record Video</b><br/>
+        The visuals were recorded according to the script, using OBS. 
+        For recording, the desktop was setup to remove any clutter such as alt-tab animations and the taskbar. 
+        We also developed a python script to type out code at a fast and consistent pace, which also cut down on mistakes to edit out later.</li>
+    <li><b>Assemble</b><br/>
+        Audio and visuals were put together in DaVinci Resolve, synchronising everything, removing mistakes, cutting down loading times, and speeding up typing.</li>
+</ol>
+<h3>The Results</h3>
+<p>
+    I can happily say that the videos were incredibly well received. 
+    We received an incredible amount of positive comments, many emphasising how well the concepts were taught. 
+    When mistakes or criticism were put forward, we addressed it and made sure to make any corrections visible to everyone.
+</p>
+<p>
+    Though the separation of audio and visuals made it easier to record and reduce mistakes, the time needed to assemble it at the end was ridiculous. 
+    This is what caused production to grind to a halt. 
+    Should we continue making the videos, we would need to sacrifice some of the production value for speed.
+</p>
+<p>
+    Developing the videos has of course given me strong knowledge of editor scripting, something I have continued to learn more about in every Unity project since. 
+    I have also learned about audio and video editing, as well as managing a social media channel.
+</p>
+<h3>The Team</h3>
+<p>
+    The channel was started with a friend.
+    For all the videos, I planned them, made the code and projects, wrote the audio script, edited the audio, recorded the visuals, and usually also recorded the audio.
+    My friend handled all the video editing and recorded the audio for one of them.
+</p>
+
+@code {
+    public static ProjectInfo ProjectInfo = new() {
+        ModalView = @<Youtube/>,
+        Title = "Youtube Channel",
+        Id = "Youtube",
+        ShortDescription = "Advanced C# programming tutorials on Unity editor-scripting.",
+        ImageSource = "/images/OK.png",
+        TeamSize = "2",
+        TechnologiesDescription = "C#, Unity, Reaper",
+        Role = "Planning, programming, audio, recording",
+        Duration = "February 2021 - May 2022",
+        Buttons = [
+            new ActionButton.ButtonLink(){
+                Destination = ActionButton.Destination.GitHub, 
+                Url = "https://github.com/MagnusMouritzen/unity-editor-scripting"},
+            new ActionButton.ButtonLink(){
+                Destination = ActionButton.Destination.YouTube, 
+                Url = "https://www.youtube.com/@Otter_Knight"}
+        ],
+        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Cs , ProjectInfo.Technology.Unity})
+    };
+
+}

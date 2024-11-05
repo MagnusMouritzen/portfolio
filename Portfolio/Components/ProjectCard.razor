@@ -1,0 +1,40 @@
+@using Portfolio.Models
+<div class="col-auto mb-4">
+    <div @onclick="OnShowModalClick" class="card project-card h-100">
+        <img src="@ProjectInfo.ImageSource" alt="Project thumbnail" class="card-img-top card-image"/>
+        <CardBody>
+            <CardTitle>@ProjectInfo.Title</CardTitle>
+            <CardText>@ProjectInfo.ShortDescription</CardText>
+            
+        </CardBody>
+        <CardFooter>
+            @foreach (ProjectInfo.TagInfo tagInfo in ProjectInfo.GetTags()) {
+                <TechnologyTag TagInfo="tagInfo"/>
+            }
+        </CardFooter>
+    </div>
+</div>
+
+<Modal @ref="_modal" Title="@ProjectInfo.Title" Size="ModalSize.Large" IsScrollable="true">
+    <BodyTemplate>
+        <ProjectTop ProjectInfo="@ProjectInfo"/>
+        <div class="container">
+            @ProjectInfo.ModalView
+        </div>
+    </BodyTemplate>
+</Modal>
+
+
+@code {
+    [Parameter] public ProjectInfo ProjectInfo { get; set; }
+    
+    private Modal _modal;
+
+    public async Task OnShowModalClick() {
+        await _modal?.ShowAsync();
+    }
+
+    private async Task OnHideModalClick() {
+        await _modal?.HideAsync();
+    }
+}

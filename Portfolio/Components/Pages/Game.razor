@@ -1,0 +1,20 @@
+@page "/game"
+@using Portfolio.Components.Projects
+@using Portfolio.Models
+@rendermode InteractiveServer
+
+<PageTitle>Game Portfolio</PageTitle>
+<ProjectView Title="Game Portfolio" Projects="@_projects"/>
+
+@code {
+    private readonly ProjectInfo[] _projects = [
+        Guildmaster.ProjectInfo,
+        Youtube.ProjectInfo,
+        Bachelor.ProjectInfo,
+        Gorillas.ProjectInfo,
+        Hexagoani.ProjectInfo,
+        Zupply.ProjectInfo,
+        UnityPackage.ProjectInfo,
+        PortfolioSite.ProjectInfo
+    ];
+}

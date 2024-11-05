@@ -1,0 +1,31 @@
+.action-button{
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover{
+    color: #fff;
+}
+
+.github {
+    background-color: black;
+}
+.github:hover{
+    background-color: #282828;
+}
+
+.youtube {
+    background-color: red;
+}
+
+.youtube:hover{
+    background-color: #CC0000;
+}
+
+.play {
+    background-color: green;
+}
+
+.play:hover {
+    background-color: #017401;
+}

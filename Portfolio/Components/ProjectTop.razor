@@ -1,0 +1,37 @@
+@using Portfolio.Models
+<div class="container">
+    <div class="row align-items-center">
+        <!-- Image Section with full width on small screens and half width on large screens -->
+        <div class="col-lg-6 col-12 text-center mb-4">
+            <img src="@ProjectInfo.ImageSource" alt="@ProjectInfo.Title" class="img-fluid rounded w-100 shadow-sm" />
+        </div>
+
+        <!-- Info Section (Vertically aligned) -->
+        <div class="col-lg-6 col-12 mb-4">
+            <Card class="h-100 d-flex flex-column justify-content-center bg-light shadow-sm">
+                <CardBody>
+                    <p>
+                        <strong>Technologies:</strong> <i>@ProjectInfo.TechnologiesDescription</i><br />
+                        <strong>Role:</strong> <i>@ProjectInfo.Role</i><br />
+                        <strong>Team size:</strong> <i>@ProjectInfo.TeamSize</i><br />
+                        <strong>Duration:</strong> <i>@ProjectInfo.Duration</i>
+                    </p>
+                    <!-- Button Section (aligned consistently) -->
+                    <div class="mt-3">
+                        @foreach (ActionButton.ButtonLink button in ProjectInfo.Buttons)
+                        {
+                        <ActionButton Info=@button />
+                        }
+                    </div>
+                </CardBody>
+            </Card>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter] public ProjectInfo ProjectInfo { get; set; }
+
+}

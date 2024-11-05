@@ -1,0 +1,40 @@
+@switch (Info.Destination) {
+    case Destination.GitHub:
+        effect = "github";
+        icon = IconName.Github;
+        text = "Source Code";
+        break;
+    case Destination.YouTube:
+        effect = "youtube";
+        icon = IconName.Youtube;
+        text = "Watch";
+        break;
+    case Destination.Play:
+        effect = "play";
+        icon = IconName.PlayFill;
+        text = "Play";
+        break;
+    default:
+        throw new ArgumentOutOfRangeException();
+}
+
+<a href="@Info.Url" class="btn me-2 mb-2 action-button @effect"><Icon Name="@icon"/> @text</a>
+
+@code {
+    [Parameter] public ButtonLink Info { get; set; }
+
+    private string effect;
+    private IconName icon;
+    private string text;
+    
+    public class ButtonLink {
+        public Destination Destination { get; set; }
+        public string Url { get; set; }
+    }
+
+    public enum Destination {
+        GitHub,
+        YouTube,
+        Play
+    }
+}

@@ -1,0 +1,256 @@
+@using Portfolio.Models
+<p>
+    I led a group of developers including programmers, a security expert, QA, and many playtesters to create this demo of a game idea. 
+    It explores the integration of generative AI to create meaningful character interactions and decisions in a game. 
+    It is developed in Unity and utilises a Python API that interacts with ChatGPT.
+</p>
+<p>
+    The game underwent many agile development cycles including design discussions, 
+    very rapid mini-prototypes played on paper with tokens, 
+    a larger paper-prototype tested on a dozen different players, 
+    and finally this digital prototype, which itself has gone through many cycles according to playtest results.
+</p>
+<h3>The Vision</h3>
+<p class="blockquote">
+    In a medieval, high fantasy world with a light-hearted touch, you take the role as the master of an adventurer’s guild tasked with managing its colourful members to achieve guild fame. 
+    They posses deep personalities and complex relationships with each other, each with their own stories, goals, and fears - given common sense by a large language model. 
+    Can you keep the teamwork smooth and members happy as they build experiences with each other and the guild?
+</p>
+<p>
+    The "seed" of the game was to use AI to bring life to characters and let them express more believable personality and behaviour. 
+    The idea is to use memory of past events to influence actions and interactions. 
+    The actual game plays out as the player taking the role of the master of a fantasy adventuring guild, where they must hire and manage members. 
+    This involves classic strategy elements such as progressing characters, managing resources, and assembling teams. 
+    Crucially, it also involves treating the characters as humans, as they each have desires, motivations, schemes, and pitfalls.  
+</p>
+<h3>AI</h3>
+<p>
+    Generative AI lies at the core of this project, and this demo is a test of LLM capabilities as much as it is a test of a game concept. 
+    We had a wishlist of features that generative AI could provide in a game. 
+    Each of them had problems, and some of them were abandoned as we learned of the limitations of the technology.
+</p>
+
+<ul>
+    <li><b>Dynamic dialogue</b><br/>
+        Characters should create dialogue on the fly to suit the context of the game.</li>
+    <li><b>Personality and mannerisms</b><br/>
+        Each character in the game should possess a consistent and believable personality, including consistent mannerisms in their dialogue.</li>
+    <li><b>Memory</b><br/>
+        Past events, especially grievances and gratitude, should be expressed in dialogue and behaviour.</li>
+    <li><b>Decision-making</b><br/>
+        Characters should make their own decisions about what to do in the game, and this should be in keeping with personality and relationships to other characters and the player.</li>
+    <li><b>Creative planning</b><br/>
+        The characters should be able to create plans in keeping with their motivations. This would require the AI to understand the rules of the game to some extent.</li>
+</ul>
+<p>
+    Some of these features were abandoned due to limitations in the technology and a lack of development time. 
+    These are some of the issues we faced and how we solved them.
+</p>
+<Accordion AlwaysOpen="false">
+    <AccordionItem Title="Decisions and Dialogue">
+        <Content>
+            <p>
+                A primary motivation for the usage of generative AI in the game was to get more human-like behaviour.
+                While this may be possible, we often found that it seems much more practical to use classic algorithmic tools to guide character decisions.
+                These decisions can then be "dressed up" using AI, but they are fundamentally designed by the design of the game. 
+                The reason for this is that algorithms can create controlled variety and can design a better play-experience than the whims of AI. 
+                The AI is often too "perfect" in its interactions, and it tends to get stuck on particular pieces of information or ideas.
+            </p>
+            <p>
+                As an example of this, take the creation of a dialogue between two characters. 
+                The idealistic AI scenario - and thus our first design - was based on the idea that the AI simply would be asked to generate a conversation between the two characters. 
+                It would receive context of the situation, knowledge of the past event, their relationship, their personalities, etc.
+            </p>
+            <p>
+                However, the AI is bad at summarising a lot of information about a relationship into a particular attitude to guide it. 
+                Perhaps worse, it almost never breaks away from its conclusion. 
+                That is, if the relationship is positive, it will only produce positive conversations.
+            </p>
+            <p>
+                Instead, the dialogue system works such that the algorithm determines the status of a relationship as a number. 
+                It additionally contains summaries of the most important reasons for the current state of each relationship.
+                When a dialogue is to happen, it is the algorithm that determines the direction of the conversation, how it should influence the relationship, and how important it is to remember.
+                The AI is then asked to create dialogue to fulfil these criteria. 
+                This way we can control the variety in conversations, we can enforce personality to play into the volatility and tone, and we get that sweet, imperfect behaviour.
+            </p>
+            <ContentImage Src="guildmaster/Dialogue.png" Description="Dialogue example in the context of a choice to be made on the quest. Raelan has the personality of a fierce and arrogant warrior, which is why he wants to jump into action. His insult to Malazar is a reference to Malazar's dark magic."/>
+            <ContentImage Src="guildmaster/Attitude.png" Description="In this particular game, Malazar actually likes Ralean, partly because of some positive interactions they otherwise have had."/>
+            <ContentImage Src="guildmaster/ConversationTone.png" Description="Each line of dialogue has a particular tone, which the AI must follow."/>
+            <ContentImage Src="guildmaster/ConversationToneReason.png" Description="Besides a tone, there is also a context for the tone. In the example above, Raelan started with a negative tone, and Malazar responded in kind. As Raelan was unprovoked and Malazar was provoked, Malazar will remember the exchange more negatively than Raelan will."/>
+            <p>
+                The same fundamental approach is taken to decision-making. 
+                For example, when an adventuring party chooses actions on a quest, it is not up to the AI. 
+                Rather, we use a system of tags to influence personality types towards particular actions. 
+                If dialogue comes up, the AI is informed of each character's opinion and why they hold that opinion.
+            </p>
+            <ContentImage Src="guildmaster/DecisionModifier.png" Description="A character with high intellect will have a small inclination towards this option, while the opposite will be the case for someone with a low intellect score."/>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Strategy and Creative Planning">
+        <Content>
+            <p>
+                Inspired by examples of large language models learning to play for example Minecraft, we wanted the AI to be able to make long term, strategic plans. 
+                As it turns out, this is no simple task. It involves dynamically teaching the AI to play the game, or to somehow explain all the rules to it. 
+                At the time that we made the game, the AI simply didn't have good enough reasoning to act from a ruleset, and its ideas would either not translate to actual actions, or they would simply be bad.
+            </p>
+            <p>
+                Therefore, and for some of the reasons mentioned above, strategic decisions are determined by the algorithms of the game. 
+                However, there is still room for experimentation on this topic. 
+                In particular, the AI could determine its own motivations to guide dialogue and occasionally choices.
+            </p>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Personality and Fine-tuning">
+        <Content>
+            <p>
+                The goal was to be able to describe a character's personality to the AI, and from that generate dialogue and decisions that make sense.
+                In practice we found that it was very difficult to get results that were consistent and colourful, especially given the limit to context in the AI.
+            </p>
+            <p>
+                The solution to this was found in the usage of fine-tuned models, which essentially are versions of ChatGPT that we trained ourselves.
+                Each character in the game would have its own model, which would be used to generate dialogue.
+            </p>
+            <p>
+                This approach creates incredibly consistent and flavourful results, which is great. 
+                The downside, of course, is that it requires us to handcraft all characters beforehand. 
+                The creation of each character is a lot of work and is not a cheap endeavour, as the training requires a lot of processing.
+                Additionally, the models are quite sensitive to how the game works. Introducing new features requires us to retrain all characters accordingly.
+            </p>
+            <ContentImage Src="guildmaster/FineTunedDialogue.png" Description="Raelan is the last member of a proud warrior family. He uses fire in combat and is obsessed with honour. Thorne is a ranger with a criminal past that he is trying to redeem himself from. He is wise and level-headed. The interaction takes both personality and history into account."/>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Memory">
+        <Content>
+            <p>
+                The normal way to provide memory context to an LLM is with a vector-database. 
+                This allows you to fetch entries according to how much they have in common with a given search-string. 
+                Thus you can find information relevant to the current prompt. 
+            </p>
+            <p>
+                To make use of this would mean to set up a local database with the installation of the game. 
+                While this for sure should be possible, it turned out to require more work than we could afford during the creation of the demo. 
+                Therefore we instead went for an Occurence system.
+            </p>
+            <p>
+                A centralised Occurence Manager tracks events of importance. 
+                Each occurence has a description, an importance, a time, and related characters. 
+                When a dialogue breaks out between characters, part of the context of the dialogue can be an occurence that happened to these characters in the past.
+                An algorithm determines the most relevant occurence given their importance, age, and who was involved. 
+                When the dialogue is done, that conversation can itself become an occurence, and it can later be used to give context as to why their relationship is as it is.
+            </p>
+            <ContentImage Src="guildmaster/GetMostRelevantOccurence.png" Description="The formula for evaluating occurence relevancy considers significance, involved characters, and age."/>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Pricing">
+        <Content>
+            <p>
+                A major concern throughout all of this is the financial costs of operating an LLM. 
+                The more a user plays the game, the more expensive they become to us. 
+                This is of course fundamentally at odds with our desire for players to play.
+                This clash of incentives is a serious financial problem for the viability of the game.
+            </p>
+            <p>
+                To minimise the problem, it is important to use as little context as possible for each AI prompt, and to only use it when necessary. 
+                This, of course, goes against the core idea of the game, and it influences many of the decisions described above. 
+                It is an unsolved problem with many underlying questions:
+            </p>
+            <ul>
+                <li>Do we want replayability, or is it a one-time experience?</li>
+                <li>Would a subscription model make more sense?</li>
+                <li>Do we use the fast and accurate model, or the older and cheaper one?</li>
+                <li>How much will an average player cost?</li>
+                <li>Do we need to rate-limit whales or adversaries?</li>
+                <li>Should we even use ChatGPT, or should we host our own model?</li>
+            </ul>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Security">
+        <Content>
+            <p>
+                The first issue is that we of course need to keep our API key private. 
+                This is why we introduced our own API as a middleman between the game and ChatGPT. 
+                Each game contacts our server, which in turn contacts ChatGPT with our key. 
+                This allows us to control the users through our own key-system.
+            </p>
+            <p>
+                Another issue is that OpenAI has terms on the usage of their product, and your key can be revoked if you abuse those.
+                You are for example not allowed to try to break free of restrictions and have the AI produce inappropriate content. 
+                But if prompts originate from users, they are also able to modify the contents. 
+                We risk punishment from OpenAI if someone abuses our system.
+            </p>
+            <p>
+                This is an open problem, though we have ideas for solutions. 
+                Some sort of agreement could be made with OpenAI that would protect us, and perhaps even aid us in punishing bad actors. 
+                Another solution would be to pregenerate all information that could be stored as context for future prompts. 
+                So while the AI is free to generate whatever it wants, only prespecified strings can ever be included in a prompt. 
+                This of course massively limits what we can do with the technology.
+            </p>
+        </Content>
+    </AccordionItem>
+</Accordion>
+<h3>Development</h3>
+<p>
+    As this demo was meant to explore both a game concept and the AI technology, the development had to be separated into two processes.
+</p>
+<p>
+    The AI development used the SCRUM system where particular features were researched and tested in sprints. 
+    Three of us worked on this part: one researched, one implemented API and ChatGPT integration, and I worked on connecting gameplay and AI.
+</p>
+<p>
+    The game development was more loose, but highly iterative. 
+    Design meetings were held with information recorded to Confluence, which served as the design document. 
+    Each meeting would generally involve an evaluation of playtest and design feedback since the last meeting, idea generation, and actual design. 
+    Going from that, we would create content for prototypes to test the ideas. 
+</p>
+<p>
+    The bulk of the design work went into creating "paper-prototypes" of the game. 
+    The rules and content of the game would be loosely formulated on paper, and we run outsiders through playtests of the prototypes to gage if they worked or not. 
+    The goal of each prototype was to test specific gameplay loops.
+    For example, one was held to test the overall management side of the game. 
+    The player would get some characters, send them on quests, manage parties, manage upgrades, etc. 
+    Another prototype tested a more interactive quest system than that found in the demo, where characters would be moved around on a map. 
+    These playtests would generally be carried out in a style akin to a tabletop role-playing game, though with very strict rules.
+</p>
+<p>
+    A massive problem with the development was the lack of separation of the game design and the AI tests. 
+    The provided demo took a lot of time to develop, as it holds a lot of game design, content, and AI functionality. 
+    In reality, it would have been smarter to not make this at all, but keep it at individual prototypes, until we had settled on a design for real. 
+    Indeed, there are many things in the demo that we would change, were we to create the full game. 
+    In a sense, this demo goes against the fundamental principle of failing fast.
+</p>
+<h3>AI in Development</h3>
+<p>
+    Generative AI were used to create many of the images used in the game, as the team did not feature an artist. 
+    More interestingly, it was also used to generate many of the quests in the game.
+</p>
+<p>
+    The quest system works on a system of decision nodes, that lead down various paths. 
+    For any phase of the quest, there is a description of the situation. 
+    I hooked up the editor to our API, so that it could help write out a phase. 
+    The quest writer could provide a general description of what should happen in the phase, and then the AI would give some text, which could then be edited to fit perfectly. 
+    Besides the description, the AI would also be able to read back through the tree, gaining access to everything that had happened so far in the quest. 
+    This system worked incredibly well, as it massively sped up quest development.
+</p>
+<ContentImage Src="guildmaster/QuestTree.png" Description="A quest is structured as a series of connected nodes."/>
+<ContentImage Src="guildmaster/QuestDescription.png" Description="Given a meta-description and the context of other quest nodes, the AI can generate a suitable description for a node."/>
+
+@code {
+    public static ProjectInfo ProjectInfo = new() {
+        ModalView = @<Guildmaster/>,
+        Title = "Guildmaster",
+        Id = "Guildmaster",
+        ShortDescription = "LLM-powered game developed in Unity by a team led by me.",
+        ImageSource = "/images/GM.png",
+        TeamSize = "4 devs, 19 testers",
+        TechnologiesDescription = "C#, Unity, Python, Flask, ChatGPT, Bitbucket Pipelines, Unity DevOps, Confluence",
+        Role = "Management, programming, design, testing",
+        Duration = "June 2023 - January 2024",
+        Buttons = [
+            new ActionButton.ButtonLink(){
+                Destination = ActionButton.Destination.Play, 
+                Url = "https://otter-knight-studio.itch.io/guildmaster-demo"}
+        ],
+        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Cs , ProjectInfo.Technology.Unity, ProjectInfo.Technology.Python, ProjectInfo.Technology.Flask, ProjectInfo.Technology.CICD})
+    };
+
+}

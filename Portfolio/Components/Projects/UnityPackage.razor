@@ -1,0 +1,73 @@
+@using Portfolio.Models
+<p>
+    This is a collection of C# code I often use in various Unity project. 
+    It is structured such that it can be imported from GitHub to Unity as a package. 
+    Much of it is classes with associated property drawers, some of them from my Youtube channel.
+</p>
+<Accordion>
+    <AccordionItem Title="EnumData">
+        <Content>
+            <p>
+                The EnumDataContainer is a wrapper for an array of data, which is mapped to by an enum.
+                It allows to easy and controlled setup in the Unity Inspector, as it automatically has the correct size and named entries.
+            </p>
+            <ContentImage Src="unitypackage/EnumCode.png" Description="Example usage of EnumDataContainer to map the TextStyles enum to the TextStyle data."/>
+            <ContentImage Src="unitypackage/EnumInspector.png" Description="The inspector has named entries for the appropriate TextStyles options."/>
+            <p>
+                Additionally, it is incredibly easy to use in code.
+            </p>
+            <ContentImage Src="unitypackage/EnumDefinition.png" Description="EnumDataContainer features indexers to seamlessly access its data, especially given an enum."/>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Some">
+        <Content>
+            <p>
+                Inspired by the Option construct of other languages, Some is a wrapper for any type of value, with a bool flag to indicate if there is a value or not. 
+                In many cases, I dislike null checks, which this avoids. 
+                The real motivation, however, is that I now have an incredibly easy way to keep the Unity Inspector window clean.
+            </p>
+            <p>
+                If a value is wrapped in Some, there is a tick box to choose if it should appear in the Inspector at all. 
+                Besides the cleaner look, it is a great way to communicate to designers that information is optional. 
+                There is also the SomeReference, which works with <a href="https://github.com/mackysoft/Unity-SerializeReferenceExtensions">SerializeReference</a>.
+            </p>
+            <ContentImage Src="unitypackage/SomeVariables.png" Description="A couple of variables are specified to be filled in the inspector. One of them is an optional Fight."/>
+            <ContentImage Src="unitypackage/SomeOpen.png" Description="When the fight box is ticked, its data can be filled."/>
+            <ContentImage Src="unitypackage/SomeClosed.png" Description="When it is not ticked, everything is hidden from the inspector."/>
+            <ContentImage Src="unitypackage/SomeUsage.png" Description="In code, it is easy to check if there is a fight or not, and to then use it."/>
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Selection">
+        <Content>
+            <p>
+                When randomly selecting an option from a list, the Selection class comes in handy. 
+                It allows you to specify a list of options, where each can have a unique selection chance. 
+                The selection chances work like ratios, so they do not need to add up to anything particular - if something has a chance of 2, it will just be four times as likely to be selected as something with a chance of 0.5.
+                It even has the option to reduce the chance of the same option being selected immediately again.
+            </p>
+            <ContentImage Src="unitypackage/SelectionInspector.png" Description="Example of a Selection of sounds. Each has the same relative chance of being chosen. Below is specified a last chosen factor of 0.5 to halve the chance of selecting the same sound twice in a row."/>
+            <ContentImage Src="unitypackage/SelectionUsage.png" Description="Getting a random sound from the selection is just a matter of a single method invocation."/>
+        </Content>
+    </AccordionItem>
+</Accordion>
+
+@code {
+    public static ProjectInfo ProjectInfo = new() {
+        ModalView = @<UnityPackage/>,
+        Title = "Unity Package",
+        Id = "UnityPackage",
+        ShortDescription = "Custom code-package for Unity.",
+        ImageSource = "/images/Unity.png",
+        TeamSize = "Solo",
+        TechnologiesDescription = "C#, Unity",
+        Role = "Programming",
+        Duration = "July 2024",
+        Buttons = [
+            new ActionButton.ButtonLink(){
+                Destination = ActionButton.Destination.GitHub, 
+                Url = "https://github.com/MagnusMouritzen/utility-package"}
+        ],
+        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Cs , ProjectInfo.Technology.Unity})
+    };
+
+}

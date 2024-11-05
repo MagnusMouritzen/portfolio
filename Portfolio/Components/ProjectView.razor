@@ -1,0 +1,26 @@
+@using Portfolio.Models
+@inject FragmentService FragmentService
+
+<div class="container-fluid">
+    <div class="row">
+        @foreach (ProjectInfo projectInfo in Projects) {
+        <ProjectCard ProjectInfo="projectInfo" @ref="_projectCards[projectInfo.Id]"/>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } 
+    [Parameter] public IEnumerable<ProjectInfo> Projects { get; set; }
+    
+    private readonly Dictionary<string, ProjectCard> _projectCards = new();
+
+    protected override void OnAfterRender(bool firstRender) {
+        if (!firstRender) return;
+
+        string projectId = FragmentService.GetFragment();
+        if (!_projectCards.TryGetValue(projectId, out ProjectCard? projectCard)) return;
+
+        projectCard.OnShowModalClick();
+    }
+}
