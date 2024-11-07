@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(to bottom, #1e1e1e 0%, #2a2a2a 70%, #3a3a3a 100%);
 }
 
 main {

@@ -1,6 +1,6 @@
 @using Portfolio.Models
-<div class="col-auto mb-4">
-    <div @onclick="OnShowModalClick" class="card project-card h-100">
+<div class="col mb-4">
+    <div @onclick="OnShowModalClick" class="card project-card h-100" style="border: none !important;">
         <img src="@ProjectInfo.ImageSource" alt="Project thumbnail" class="card-img-top card-image"/>
         <CardBody>
             <CardTitle>@ProjectInfo.Title</CardTitle>
