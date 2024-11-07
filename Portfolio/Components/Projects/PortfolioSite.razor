@@ -64,12 +64,12 @@
     Second, SonarCloud - an industry standard tool for code analysis - initiates a scan of the repository for secrets and security issues.
     It is meant as a failsafe to ensure I do not expose any vulnerabilities.
 </p>
-<ContentImage Src="portfolio/MainActions.png" Description="When main is pushed to, the project is scanned, built, and deployed."/>
 <p>
     If everything is good, I can merge main into release. 
     This triggers a GitHub workflow that builds the project and deploys it to my server, which hosts it at <a href="https://otterknight.net">otterknight.net</a>. 
     This workflow of course keeps sensitive information such as an SSH key secret using GitHub secrets.
 </p>
+<ContentImage Src="portfolio/GitHubActions.png" Description="Four jobs completed for a push to main and release."/>
 
 @code {
     public static ProjectInfo ProjectInfo = new() {

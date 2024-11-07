@@ -107,7 +107,11 @@
     Besides those classes, we have a lot of small classes that define individual pieces of behaviour. 
     They are all easily created and included because of all the work done by the Engine.
 </p>
-
+<h3>Build</h3>
+<p>
+    GitHub Actions are used to build the game to Windows, Linux, and Mac.
+    On a push, it automatically produces three directories with executables using jpackage.
+</p>
 @code {
     public static ProjectInfo ProjectInfo = new() {
         ModalView = @<Gorillas/>,
@@ -122,9 +126,14 @@
         Buttons = [
             new ActionButton.ButtonLink(){
                 Destination = ActionButton.Destination.GitHub, 
-                Url = "https://github.com/MagnusMouritzen/gorillas"}
+                Url = "https://github.com/MagnusMouritzen/gorillas"
+            },
+            new ActionButton.ButtonLink() {
+                Destination = ActionButton.Destination.Play,
+                Url = "https://otter-knight-studio.itch.io/gorillas"
+            }
         ],
-        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Java})
+        Technologies = ProjectInfo.TechnologyMask(new [] { ProjectInfo.Technology.Java, ProjectInfo.Technology.CICD})
     };
 
 }

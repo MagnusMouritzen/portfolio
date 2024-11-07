@@ -1,0 +1,16 @@
+h1.display-3 {
+    font-size: 3.5rem;
+}
+
+ul.fs-5 li {
+    display: flex;
+    align-items: center;
+}
+
+i.bi-check-circle-fill {
+    font-size: 1.25rem;
+}
+
+body {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
