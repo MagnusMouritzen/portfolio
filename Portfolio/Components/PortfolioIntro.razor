@@ -1,0 +1,14 @@
+<div class="container text-center my-5 text-light">
+    <h1 class="display-3 fw-bold mb-3">Magnus Mouritzen</h1>
+    <h2 class="h2 fw-semibold mb-4">@Title</h2>
+    <ul class="list-unstyled fs-5">
+        @foreach (string line in Lines) {
+            <li class="mb-2"><i>@line</i></li>
+        }
+    </ul>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public IEnumerable<string> Lines { get; set; }
+}

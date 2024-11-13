@@ -3,20 +3,11 @@
 @using Portfolio.Models
 @rendermode InteractiveServer
 
-<PageTitle>Game Portfolio</PageTitle>
-<div class="full-background">
-        <div class="container text-center my-5 text-light">
-            <h1 class="display-3 fw-bold mb-3">Magnus Mouritzen</h1>
-            <h2 class="h2 fw-semibold mb-4">Game Programmer</h2>
-            <ul class="list-unstyled fs-5">
-                <li class="mb-2"><i>Computer Science master student and lifelong gamer</i></li>
-                <li class="mb-2"><i>8 years of programming with industry standard tools like Unity</i></li>
-                <li class="mb-2"><i>Proficient with DevSecOps, Agile, CI/CD pipelines and more</i></li>
-                <li class="mb-2"><i>Mastery of C#, Python, C++ and many others</i></li>
-            </ul>
-        </div>
-        <ProjectView Title="Game Portfolio" Projects="@_projects"/>
-</div>
+<PageTitle>Portfolio</PageTitle>
+<PortfolioIntro
+    Title="Game Programmer"
+    Lines="@_introLines"/>
+<ProjectView Title="Game Portfolio" Projects="@_projects"/>
 
 @code {
     private readonly ProjectInfo[] _projects = [
@@ -28,5 +19,13 @@
         UnityPackage.ProjectInfo,
         PortfolioSite.ProjectInfo,
         Zupply.ProjectInfo
+    ];
+
+    private readonly string[] _introLines = [
+        "Computer Science master student and lifelong gamer",
+        "8 years of programming and game development",
+        "Deeply specialised in C# and Unity",
+        "Proficient with DevSecOps, Agile, CI/CD and formal methods",
+        "Projects include OOP, AI, networking and design"
     ];
 }

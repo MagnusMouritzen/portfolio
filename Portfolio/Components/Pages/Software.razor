@@ -3,18 +3,30 @@
 @using Portfolio.Models
 @rendermode InteractiveServer
 
-<PageTitle>Software Portfolio</PageTitle>
+<PageTitle>Portfolio</PageTitle>
+<PortfolioIntro 
+    Title="Software Engineer" 
+    Lines="@_introLines"/>
+
 <ProjectView Title="Software Portfolio" Projects="@_projects"/>
 
 @code {
     private readonly ProjectInfo[] _projects = [
         Bachelor.ProjectInfo,
-        Zupply.ProjectInfo,
         PortfolioSite.ProjectInfo,
         Guildmaster.ProjectInfo,
+        Zupply.ProjectInfo,
         Youtube.ProjectInfo,
         Gorillas.ProjectInfo,
         Hexagoani.ProjectInfo,
         UnityPackage.ProjectInfo
+    ];
+
+    private readonly string[] _introLines = [
+        "Computer Science master student",
+        "8 years of programming",
+        "Mastery of C# and Python - experienced with many more",
+        "Proficient with DevSecOps, Agile, CI/CD and formal methods",
+        "Projects include OOP, fullstack, AI and networking"
     ];
 }
