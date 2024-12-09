@@ -1,4 +1,6 @@
-
+#components-reconnect-modal {
+    display: none !important;  /* This avoids the annoying "Attempting to reconnect to server" message. */
+}
 
 a, .btn-link {
     color: #b70000;
