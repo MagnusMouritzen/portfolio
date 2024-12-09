@@ -18,6 +18,10 @@ public class ProjectInfo {
 
     private static readonly TagInfo[] _tagInfos = [
         new TagInfo() {
+            Text = "AI",
+            Colour = "#CF0F5C"
+        },
+        new TagInfo() {
             Text = "C#",
             Colour = "#68217A"
         },
@@ -81,6 +85,7 @@ public class ProjectInfo {
     }
     
     public enum Technology {
+        Ai,
         Cs,
         Unity,
         Cpp,
