@@ -16,51 +16,18 @@ public class ProjectInfo {
     public ActionButton.ButtonLink[] Buttons { get; set; }
     public int Technologies { get; set; }
 
-    private static readonly TagInfo[] _tagInfos = [
-        new TagInfo() {
-            Text = "AI",
-            Colour = "#CF0F5C"
-        },
-        new TagInfo() {
-            Text = "C#",
-            Colour = "#68217A"
-        },
-        new TagInfo() {
-            Text = "Unity",
-            Colour = "#8D8D8D"
-        },
-        new TagInfo() {
-            Text = "C++",
-            Colour = "#00599C"
-        },
-        new TagInfo() {
-            Text = "Python",
-            Colour = "#3776AB"
-        },
-        new TagInfo() {
-            Text = "Flask",
-            Colour = "#000000"
-        },
-        new TagInfo() {
-            Text = "CUDA",
-            Colour = "#76B900"
-        },
-        new TagInfo() {
-            Text = "CI/CD",
-            Colour = "#FF5733"
-        },
-        new TagInfo() {
-            Text = "SQL",
-            Colour = "#2E8B57"
-        },
-        new TagInfo() {
-            Text = ".NET",
-            Colour = "#512BD4"
-        },
-        new TagInfo() {
-            Text = "Java",
-            Colour = "#F89820"
-        }
+    private static readonly TagInfo[] TagInfos = [
+        new TagInfo("AI", "#CF0F5C"),
+        new TagInfo("C#", "#68217A"),
+        new TagInfo("Unity", "#8D8D8D"),
+        new TagInfo("C++", "#00599C"),
+        new TagInfo("Python", "#3776AB"),
+        new TagInfo("Flask", "#000000"),
+        new TagInfo("CUDA", "#76B900"),
+        new TagInfo("CI/CD", "#FF5733"),
+        new TagInfo("SQL", "#2E8B57"),
+        new TagInfo(".NET", "#512BD4"),
+        new TagInfo("Java", "#F89820")
     ];
     
     public IEnumerable<TagInfo> GetTags() {
@@ -68,7 +35,7 @@ public class ProjectInfo {
         foreach (Technology technology in Enum.GetValues(typeof(Technology))) {
             int index = (int)technology;
             if ((Technologies & (1 << index)) != 0) {
-                tagInfos.Add(_tagInfos[index]);
+                tagInfos.Add(TagInfos[index]);
             }
         }
 
@@ -98,8 +65,8 @@ public class ProjectInfo {
         Java
     }
 
-    public class TagInfo {
-        public string Text { get; set; }
-        public string Colour { get; set; }
+    public class TagInfo(string text, string colour) {
+        public string Text { get; private set; } = text;
+        public string Colour { get; private set; } = colour;
     }
 }
