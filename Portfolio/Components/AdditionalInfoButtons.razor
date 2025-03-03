@@ -1,0 +1,17 @@
+<a href="https://github.com/MagnusMouritzen" class="@_class">
+    <Icon Name="IconName.Github"/> GitHub
+</a>
+<a href="https://www.linkedin.com/in/magnus-mouritzen/" class="@_class">
+    <Icon Name="IconName.Linkedin"/> LinkedIn
+</a>
+<a href="@CvFile" download="CV.pdf" class="@_class">
+    <Icon Name="IconName.FilePdfFill"/> CV
+</a>
+<a href="https://www.credly.com/badges/6b99f27b-ceb5-4826-8b37-217519f699a5/public_url" class="@_class">
+    <Icon Name="IconName.Git"/> Certification
+</a>
+@code {
+    [Parameter] public string CvFile { get; set; }
+
+    private readonly string _class = "btn btn-outline-light rounded-3 mx-1";
+}
