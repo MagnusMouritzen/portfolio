@@ -1,20 +1,21 @@
 @using Portfolio.Models
 <div class="text-light container text-center">
-    <div class="my-5">
-        <h1 class="display-3 fw-bold mb-3">Magnus Mouritzen</h1>
-        <h2 class="h2 fw-semibold mb-4">@Title</h2>
-    </div>
+    <h1 class="display-2 fw-bold mb-2 mt-5">Magnus Mouritzen</h1>
+    <p class="h2 fw-semibold mb-3">@Title</p>
     <div class="d-flex justify-content-center">
         <MetricBox BigText="8" SmallText="years of programming"/>
         <MetricBox BigText="MSc" SmallText="student in Computer Science"/>
         <MetricBox BigText="8+" SmallText="programming languages"/>
     </div>
-    <h1>Top Technologies</h1>
-    <div class="d-flex justify-content-center">
-        @foreach (TechnologyStackInfo tech in TechStack) {
-            <TechnologyStackTile Info="tech"/>
-        }
+    <div class="mt-5 mb-3">
+        <h2 class="h3 fw-bold mb-2">Top Technologies</h2>
+        <div class="d-flex justify-content-center">
+            @foreach (TechnologyStackInfo tech in TechStack) {
+                <TechnologyStackTile Info="tech"/>
+            }
     </div>
+    </div>
+    <h2 class="h3 fw-bold mb-3">Projects</h2>
 </div>
 @code {
     [Parameter] public string Title { get; set; }

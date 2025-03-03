@@ -1,15 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
 #components-reconnect-modal {
     display: none !important;  /* This avoids the annoying "Attempting to reconnect to server" message. */
 }
 
+:root {
+    --bs-body-font-family: 'Roboto', sans-serif;
+    --bs-heading-font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .display-1, .display-2, .display-3, .display-4, .display-5, .display-6{
+    font-family: var(--bs-heading-font-family);
+}
+
 a, .btn-link {
-    color: #b70000;
+    color: #006bb7;
 }
 
 .btn-primary {
     color: #fff;
-    /*background-color: #1b6ec2;*/
-    background-color: #c21b21;
+    background-color: #1b6ec2;
     border-color: #1861ac;
 }
 
