@@ -6,7 +6,8 @@
 <PageTitle>Portfolio</PageTitle>
 <PortfolioIntro
     Title="Game Programmer"
-    Lines="@_introLines"/>
+    Lines="@_introLines"
+    TechStack="@_techStack"/>
 <ProjectView Title="Game Portfolio" Projects="@_projects"/>
 
 @code {
@@ -27,5 +28,13 @@
         "Deeply specialised in C# and Unity",
         "Proficient with DevSecOps, Agile, CI/CD and formal methods",
         "Projects include OOP, AI, networking and design"
+    ];
+
+    private readonly TechnologyStackInfo[] _techStack = [
+        TechnologyStackInfo.Cs,
+        TechnologyStackInfo.Unity,
+        TechnologyStackInfo.Git,
+        TechnologyStackInfo.Python,
+        TechnologyStackInfo.Cpp,
     ];
 }

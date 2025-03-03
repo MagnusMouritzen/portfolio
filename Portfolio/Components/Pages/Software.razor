@@ -6,7 +6,8 @@
 <PageTitle>Portfolio</PageTitle>
 <PortfolioIntro 
     Title="Software Engineer" 
-    Lines="@_introLines"/>
+    Lines="@_introLines"
+    TechStack="@_techStack"/>
 
 <ProjectView Title="Software Portfolio" Projects="@_projects"/>
 
@@ -28,5 +29,13 @@
         "Mastery of C# and Python - experienced with many more",
         "Proficient with DevSecOps, Agile, CI/CD and formal methods",
         "Projects include OOP, fullstack, AI and networking"
+    ];
+    
+    private readonly TechnologyStackInfo[] _techStack = [
+        TechnologyStackInfo.Git,
+        TechnologyStackInfo.Cs,
+        TechnologyStackInfo.Python,
+        TechnologyStackInfo.Cpp,
+        TechnologyStackInfo.Sql
     ];
 }
