@@ -1,7 +1,7 @@
 @using Portfolio.Models
 @inject FragmentService FragmentService
 
-<div class="container">
+<div class="container mb-5">
     <div class="row row-cols-auto justify-content-center gy-4 gx-4">
         @foreach (ProjectInfo projectInfo in Projects) {
             <ProjectCard ProjectInfo="projectInfo" @ref="_projectCards[projectInfo.Id]"/>
