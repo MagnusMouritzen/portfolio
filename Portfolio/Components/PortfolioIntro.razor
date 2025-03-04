@@ -9,7 +9,7 @@
     </div>
     <div class="mt-5 mb-3">
         <h2 class="h3 fw-bold mb-2">Top Technologies</h2>
-        <div class="d-flex justify-content-center">
+        <div class="row row-cols-auto justify-content-center gy-3 gx-5">
             @foreach (TechnologyStackInfo tech in TechStack) {
                 <TechnologyStackTile Info="tech"/>
             }
